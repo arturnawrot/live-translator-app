@@ -1,0 +1,153 @@
+html { scroll-behavior: smooth;}
+
+body {
+    background-color: #d0d4ff03;
+}
+
+.navbar {
+    border-color: rgb(229 231 235) !important;
+    border-bottom-width: 1px !important;
+}
+
+footer {
+    border-color: rgb(229 231 235) !important;
+    border-top-width: 1px !important;
+    background-color: #ffffff !important;
+}
+
+.btn-primary {
+    --tw-bg-opacity: 1;
+    background-color: rgb(30 66 159 / var(--tw-bg-opacity)) !important;
+    border-color: transparent !important;
+    font-size: .875rem !important;
+    font-weight: 500 !important;
+    line-height: 1.25rem !important;
+}
+
+#sign_button {
+    background-color: transparent !important;
+    color: #1e429f !important;
+    border-color: #1e429f !important;
+    border-radius: 5px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+#translation-card, #translationTextArea {
+    box-shadow: 0px 0px 0px 1px #e0e0e0;
+    border-radius: 15px;
+}
+
+#translationTextArea {
+    height: 100px;
+    resize: none;
+    overflow: auto;
+}
+
+#translation-card .dropdown-toggle {
+    border-radius: 15px;
+    border-color: #e0e0e0;
+    padding: 15px 20px;
+}
+
+#controlButtons button {
+    border-radius: 15px !important;
+    border-color: #e0e0e0 !important;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+}
+
+.dropdown button {
+    background: radial-gradient(circle at 18.7% 37.8%, rgb(250, 250, 250) 0%, rgb(225 234 238 / 10%) 90%)
+}
+
+#stop {
+    background-color: #f13d3d !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(236, 236, 236, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(236, 236, 236, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(236, 236, 236, 0);
+	}
+}
+
+footer {
+    font-size: 14px;
+}
+
+#paymentButtons button:not(:first-child) {
+    margin-right: 10px;
+}
+
+#heroHeading {
+    font-size: 60px;
+    line-height: 1.15;
+    font-weight: bold;
+}
+
+#heroContainer {
+    max-width: 1080px;
+}
+
+#heroP {
+    font-size: 22px;
+    line-height: 1.57;
+}
+
+#heroActionButton {
+    font-size: 20px !important;
+    line-height: 2rem !important;
+    padding: 14px 20px !important;
+}
+
+#stats .card {
+    border: none;
+    color: grey;
+}
+
+#stats, #stats .card {
+    background-color: #f2f2f2;
+    border-radius: 24px;
+    padding: 10px 10px;
+    font-size: 20px;
+}
+
+#stats .card-title {
+    color: #5d5d5d !important;
+}
+
+#plans .card {
+    border-radius: 24px !important;
+}
+
+#plans .card-header {
+    color: black !important;
+    background-color: transparent !important;
+    font-size: 18px !important;
+}
+
+#plans .btn-primary {
+    background-color: transparent !important;
+    color: #1e429f !important;
+    border-color: #1e429f !important;
+    border-radius: 5px;
+}
+
+/* #plans .col-md-4 {
+    max-width: 300px;
+} */

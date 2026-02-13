@@ -1,0 +1,54 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block template %}
+
+<div class="container mt-5">
+    <div id="translation-card" class="p-5 card border-0 rounded-lg">
+        <div class="card-body">
+            <h1 class="display-6 mb-5">Dashboard</h1>
+            <div class="my-4">
+                <div class="mb-4">
+                    <p>Subscription Status: 
+                        {% if not is_subscription_active %}
+                        Expired
+                        <form method="post" action="{% url 'renew-subscription' %}">
+                            {% csrf_token %}
+                            <button type="submit">Renew Subscription</button>
+                        </form>
+                        {% else %}
+                        Active
+                        {% endif %}
+                    </p>
+                    <p>Username: <b>{{ user.username }}</b></p>
+                    <p>Email: <b>{{ user.email }}</b></p>
+                    <div id="usageStats">
+                        <p>Unpaid Usage: {{ total_unpaid_duration }} seconds</p>
+                        <p>Amount owned: ${{ user.payment_profile.amount_to_charge }}</p>
+                        
+                        <p>Total paid: ${{ total_amount_paid }}</p>
+                    </div>
+                </div>
+
+                {% include 'auth/inc/payment-methods.html' %}
+
+                <div class="mt-4 row">
+                    <a href="{% url 'setup-payment-method-page' %}">Add a new payment method</a>
+                    <a href="{% url 'share-code-page' %}">Manage share code</a>
+                    <a href="{% url 'charge' %}">Charge yourself</a>
+                    <a href="{% url 'list_transactions' %}">List of transactions</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+
+                <div class="mt-5">
+                    <a onclick="return confirm('Are you sure you want to delete your account? You will be charged for rest of the usage before your account will be deleted.');" href="{% url 'delete-account' request.user.pk %}" class="btn btn-danger">Delete My Account</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

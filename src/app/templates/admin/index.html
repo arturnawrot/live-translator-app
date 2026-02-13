@@ -1,0 +1,84 @@
+{% extends "admin/index.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="module">
+    <h2>Services Health</h2>
+    <div class="form-row">
+        <p id="countdown"></p>
+        <div id="health-services"></div>
+    </div>
+</div>
+
+{{ block.super }}
+
+{% endblock %}
+
+{% block extrahead %}
+
+{{ block.super }}
+
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+
+<script>
+jQuery(document).ready(function() {
+  var refreshInterval = 20; // Refresh interval in seconds
+  var timer = refreshInterval;
+
+  // Function to update the countdown display
+  function updateCountdown() {
+    jQuery('#countdown').html('Refreshing in ' + timer + ' seconds');
+  }
+
+  // Function to perform the refresh operation
+  function refreshData() {
+    jQuery.ajax({
+      url: "/health-check/",
+      type: "GET",
+      success: function(response) {
+        // On success, reset the timer and update the page content
+        jQuery('#health-services').empty();
+        jQuery.each(response, function(service, status) {
+          jQuery('#health-services').append('<p>' + service + ': ' + status + '</p>');
+        });
+      },
+      error: function(xhr, status, error) {
+        // On error, still reset the timer but show an error message
+        jQuery('#health-services').html('<p>Error retrieving service health.</p>');
+      }
+    });
+  }
+
+  // Function to manage both countdown and data refresh
+  function startInterval() {
+    // Initially call refreshData to load data immediately without waiting for the first interval to complete
+    refreshData();
+    // Update countdown immediately
+    updateCountdown();
+
+    // Set up an interval to count down and refresh
+    setInterval(function() {
+      // When timer reaches 0, refresh data and reset timer
+      if (timer === 0) {
+        refreshData(); // Refresh the data
+        timer = refreshInterval; // Reset timer
+      } else if (timer === 1) {
+        // Just before refreshing, indicate that it's happening soon
+        jQuery('#countdown').html('Refreshing...');
+        jQuery('#health-services').html('<p>Refreshing now...</p>');
+        timer--;
+      } else {
+        // Decrement the timer and update the countdown display
+        timer--;
+        updateCountdown();
+      }
+    }, 1000); // Update every second
+  }
+
+  // Start the interval
+  startInterval();
+});
+</script>
+{% endblock %}

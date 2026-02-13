@@ -1,0 +1,46 @@
+{% if payment_methods %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Card Number</th>
+        <th>Expiration Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for method in payment_methods %}
+        <tr>
+          <td>**** **** **** {{ method.card.last4 }}</td>
+          <td>{{ method.card.exp_month }}/{{ method.card.exp_year }}</td>
+          <td>
+            <div class="btn-group" id="paymentButtons">
+              {% if method.is_default %}
+                <span class="badge bg-success">Default</span>
+              {% else %}
+                <form action="{% url 'set-default-payment-method' method.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-primary btn-sm">Set as Default</button>
+                </form>
+              {% endif %}
+              {% if not method.is_default %}
+                <form action="{% url 'delete-payment-method' method.id %}" method="post" style="display:inline-block;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+              {% endif %}
+            </div>
+
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3">No payment methods found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="alert alert-warning" role="alert">
+    Lol, you do not have any payment methods.
+  </div>
+{% endif %}

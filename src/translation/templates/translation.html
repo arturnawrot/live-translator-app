@@ -1,0 +1,97 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Index Page{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
+{% endblock %}
+
+{% block template %}
+
+<div class="container mt-5">
+    <div id="translation-card" class="p-5 card border-0 rounded-lg">
+      <div class="card-body">
+        <input type="hidden" name="translateFrom" id="translateFromInput">
+        <input type="hidden" name="translateTo" id="translateToInput">
+        <h1 class="display-6 mb-5">Translate Speech to Speech</h1>
+        <div class="my-4">
+          <label for="translateFrom" class="form-label">Translate From:</label>
+          <select class="form-select" id="translateFrom">
+            <!-- <option value="us" selected>
+              English
+            </option> -->
+            <!-- <option value="fr">
+              French
+            </option> -->
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="translateTo" class="form-label">Translate To:</label>
+          <select class="form-select" id="translateTo">
+            <!-- <option value="es" selected>
+              Spanish
+            </option> -->
+            <!-- <option value="de">
+              German
+            </option> -->
+            <!-- <option value="pl">
+              Polish
+            </option> -->
+            <!-- Add more options as needed -->
+          </select>
+
+        </div>
+
+        <button type="button" onclick="swapLanguages()">Swap</button>
+
+        <div class="mt-5">
+          <img src="{% static 'svg/mic-on.svg' %}" id="mic" height="25">
+          <span>Your microphone is <b id="offOnMark">OFF</b>.</span>
+        </div>
+
+        <p class="mt-4">
+          <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Show Text
+          </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body border-0 rounded-lg" id="translationTextArea">
+            <!-- Translated text will show up here when you start translating. -->
+          </div>
+        </div>
+
+        <div class="mt-4 align-items-center" id="controlButtons">
+            <button class="btn btn-primary" type="submit" id="start">Start Translating</button>
+            <button class="btn btn-primary" type="submit" id="stop" style="display: none;">Stop Translating</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div id="dev" hidden>
+    <button type="button" id="startDev">Start</button>
+
+    <label for="rmsThreshold">RMS Threshold:</label>
+    <input type="range" id="rmsThreshold" min="0" max="100" value="20" step="1">
+    <span id="rmsThresholdValue">20</span>
+
+    <p>English to Polish translation</p>
+    <p>Status: </p> <span id="status"></span>
+    
+    <h2>Recorded Audio Clips</h2>
+    <ul id="audioClips"></ul>
+</div>
+
+<script>
+    const FRONTEND_COMMUNICATION_PROTOCOL = "{{ FRONTEND_COMMUNICATION_PROTOCOL }}";
+    const SHARE_CODE = "{{ share_code.code }}";
+</script>
+
+<script src="{% static 'js/translation.js' %}"></script>
+<script defer src="{% static 'js/dropdown-options-with-flags.js' %}"></script>
+
+{% endblock %}

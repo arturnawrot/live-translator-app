@@ -1,0 +1,102 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block template %}
+
+<div class="container mt-5">
+    <div id="translation-card" class="p-5 card border-0 rounded-lg">
+        <div class="card-body">
+            <h1 class="display-6 mb-5">
+            {% if user.payment_profile.has_payment_method %}
+                Add New Payment Method
+            {% else %}    
+                Payment Method Required
+            {% endif %}
+            </h1>
+
+            {% if not user.payment_profile.has_payment_method %}
+                <p>
+                    Hello {{ user.username }}.
+                </p>
+                <p>
+                    You need to set up your payment method in order to start using the application.
+                </p>
+            {% endif %}
+
+            <div class="my-4">
+                <form id="payment-form">
+                    <div id="payment-element">
+                        <!-- Elements will create form elements here -->
+                    </div>
+                    <input class="btn btn-primary mt-4" type="submit" id="submit">
+                    <div id="error-message">
+                        <!-- Display error message to your customers here -->
+                    </div>
+                </form>
+            </div>
+            
+            {% if not user.payment_profile.has_payment_method %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
+
+    var ready = false;
+    (async () => {
+  const response = await fetch("{% url 'get-client-secret' %}");
+  const {client_secret: clientSecret} = await response.json();
+  ready = true;
+  console.log(clientSecret, ready);
+  // Render the form using the clientSecret
+
+    const options = {
+  clientSecret: clientSecret,
+  // Fully customizable with appearance API.
+  appearance: {/*...*/},
+};
+
+// Set up Stripe.js and Elements using the SetupIntent's client secret
+const elements = stripe.elements(options);
+
+// Create and mount the Payment Element
+const paymentElement = elements.create('payment');
+paymentElement.mount('#payment-element');
+
+const form = document.getElementById('payment-form');
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const {error} = stripe.confirmSetup({
+        //`Elements` instance that was used to create the Payment Element
+        elements,
+        confirmParams: {
+        return_url: location.protocol + '//' + location.host + "{% url 'dashboard' %}" + "?reload_cache=true&stripe_payment_method_added=true",
+        }
+    });
+    
+    if (error) {
+        // This point will only be reached if there is an immediate error when
+        // confirming the payment. Show error to your customer (for example, payment
+        // details incomplete)
+        const messageContainer = document.querySelector('#error-message');
+        messageContainer.textContent = error.message;
+    } else {
+        // Give Stripe a few seconds to send a request to the webhook
+    }
+});
+})();
+
+</script>
+{% endblock %}

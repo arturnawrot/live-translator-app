@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" class="h-100">
+    <head>
+        <meta charset="utf-8">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %} Homepage {% endblock %}</title>
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+        {% block head %}
+        {% endblock %}
+
+        <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+
+    </head>
+    <body class="d-flex flex-column h-100">
+        {% include 'base/navbar.html' %}
+
+        <main class="flex-shrink-0 pb-5">
+            <div class="container mt-5">
+                {% include 'base/errors.html' %}
+            </div>
+            {% block template %}
+            {% endblock %}
+        </main>
+
+        {% include 'base/footer.html' %}
+
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

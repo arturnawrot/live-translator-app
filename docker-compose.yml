@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres-server:
+    image: postgres
+    container_name: postgres-server
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - translate:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis-server:
+    image: redis
+    container_name: redis-server
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    restart: always
+
+  web:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "80:80"
+    environment:
+      DEBUG: "0"
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    depends_on:
+      postgres-server:
+        condition: service_healthy
+      redis-server:
+        condition: service_started
+    env_file: ./.env
+
+volumes:
+  translate:

@@ -1,0 +1,116 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Translated4U{% endblock %}
+
+{% block template %}
+
+    <section class="container mt-5" id="heroContainer">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <!-- Heard something you didn't understand? We've got you covered. -->
+                <h1 id="heroHeading">Heard something
+                </br>you didn't
+                
+                    understand?</h1>
+                <p id="heroP" class="mt-4">We've got you covered. Break down language barriers instantly. Speak naturally, listen globally, and connect seamlessly. 
+                </p>
+                <a id="heroActionButton" href="#plans" class="mt-4 btn btn-primary">Get Started</a>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/hero.png' %}" alt="Hero Image" class="img-fluid">
+            </div>
+        </div>
+
+
+        <div id="stats" class="row justify-content-center mt-5">
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h3 class="card-title">4,000+</h3>
+                  <p class="card-text">HAPPY CUSTOMERS</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h3 class="card-title">552+</h3>
+                  <p class="card-text">LANGUAGES</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h3 class="card-title">4,795</h3>
+                  <p class="card-text">VOICES</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h3 class="card-title">35,000+</h3>
+                  <p class="card-text">LANGUAGE PAIRS</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="plans" class="mt-5 row justify-content-center">
+            <div class="col-md-4">
+              <div class="card text-center">
+                <div class="card-header text-white">
+                  Small
+                </div>
+                <div class="card-body">
+                  <p class="card-text">
+                    <li>Feauture #1</li>
+                    <li>Feauture #1</li>
+                    <li>Feauture #1</li>
+                    <li>Feauture #1</li>
+                  </p>
+                  <a href="{% url 'contact' %}" class="btn btn-primary">Contact Us</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card text-center">
+                <div class="card-header text-white">
+                  Medium
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <li>Feauture #1</li>
+                        <li>Feauture #1</li>
+                        <li>Feauture #1</li>
+                        <li>{{ SUBSCRIPTION_COST }}</li>
+                      </p>             
+                    <a href="{% url 'contact' %}" class="btn btn-primary">Contact Us</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card text-center">
+                <div class="card-header text-white">
+                  Enterprise
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <li>Feauture #1</li>
+                        <li>Feauture #1</li>
+                        <li>Feauture #1</li>
+                        <li>Feauture #1</li>
+                      </p>                  
+                      <a href="{% url 'contact' %}" class="btn btn-primary">Contact Us</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    </section>
+{% endblock %}
+
